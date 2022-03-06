@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
+import { login } from '../services/authService';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 class LoginForm extends Form {
     
@@ -20,9 +22,19 @@ class LoginForm extends Form {
 
     
 
-    doSumbit = () => {
-        // call server
-        console.log('Submitted');
+    doSumbit = async () => {
+        try {
+            const { data } = this.state;
+            const { data: jwt} = await login(data.username, data.password);
+            localStorage.setItem('token', jwt);
+            window.location.href = '/';
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                const errors = {...this.state.errors};
+                errors.username = ex.response.data;
+                this.setState({ errors });
+            }
+        }
     }
 
     
