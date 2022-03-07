@@ -1,8 +1,6 @@
 import React from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
-import http from '../services/httpService';
-import config from '../config.json'
 import { getGenres } from './../services/genreService';
 import { getMovie, saveMovie } from '../services/movieService';
 
@@ -54,7 +52,7 @@ class MovieForm extends Form {
     };
 
     async doSumbit() {
-        const result = saveMovie(this.state.data);
+        saveMovie(this.state.data);
         this.props.navigate('/movies');
     }
 
