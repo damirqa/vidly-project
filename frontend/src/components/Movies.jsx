@@ -98,6 +98,7 @@ class Movies extends Component {
     render() {
         const { length: count } = this.state.movies;
         const {pageSize, currentPage, sortColumn } = this.state;
+        const { user } = this.props;
 
         if (count === 0) return <p>Фильмов нет!</p>
 
@@ -109,7 +110,7 @@ class Movies extends Component {
                     <ListGroup items={this.state.genres} selectedItem={this.state.selectedGenre} onItemSelect={this.handleGenreSelect}/>
                 </div>
                 <div className='col-9'>
-                    <Link to='/movies/new' className='btn btn-primary mb-2'>New Movie</Link>
+                    {user && <Link to='/movies/new' className='btn btn-primary mb-2'>New Movie</Link>}
                     <p>Количество в фильмов в базе данных { totalCount }.</p>
                     <input className="form-control mb-2" value={this.state.search} onChange={this.handleSearch} placeholder='Search...'/>
                     <MoviesTable movies={movies} likedList={this.state.likedList} sortColumn={sortColumn} onDelete={this.handleDelete} onFavorite={this.handleFavorite} onSort={this.handleSort}/>
