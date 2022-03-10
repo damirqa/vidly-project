@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import Joi from 'joi-browser';
 import Input from './common/input';
 import auth from '../services/authService';
@@ -11,6 +11,7 @@ const LoginForm = () => {
     const [ errors, setErrors ] = useState({ username: '', password: ''});
 
     const location = useLocation();
+    const user = auth.getCurrentUser();
 
     const schema = {
         username: Joi.string().required().label('Username'),
@@ -54,7 +55,7 @@ const LoginForm = () => {
         }
     }
 
-    return (
+    return user ? <Navigate to='/' /> : (
         <div className='container'>
             <h1>Login</h1>
             <form onSubmit={handleSumbit}>
